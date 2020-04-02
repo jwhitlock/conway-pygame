@@ -9,9 +9,9 @@ import pygame
 DEBUG = True
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BLUE = (0,0,255)
-GREEN = (0,255,0)
-RED = (255,0,0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 
 
 def createFullScreen(debug=DEBUG):
@@ -40,9 +40,11 @@ def createWindowScreen(width=600, height=600, debug=DEBUG):
     print("screen created, size is:", screen.get_size())
     return screen
 
+
 def pick_grid_size(screen):
-    (xmax,ymax)= screen.get_size()
+    (xmax, ymax) = screen.get_size()
     return (xmax // 9, ymax // 9)
+
 
 def make_empty_grid(x, y):
     grid = []
@@ -53,18 +55,20 @@ def make_empty_grid(x, y):
         grid.append(row)
     return grid
 
+
 def make_random_grid(x, y):
     grid = []
     points = 0
     for r in range(x):
         row = []
         for c in range(y):
-            val = randint(0,1)
+            val = randint(0, 1)
             points += val
             row.append(val)
         grid.append(row)
     print("Random world with %d points." % points)
     return grid
+
 
 def evolve(grid):
     x = len(grid)
@@ -77,22 +81,32 @@ def evolve(grid):
             new_grid[r][c] = 1 if evolve_cell(cell, neighbours) else 0
     return new_grid
 
+
 def evolve_cell(alive, neighbours):
     return neighbours == 3 or (alive and neighbours == 2)
 
+
 def count_neighbours(grid, position):
-    x,y = position
-    neighbour_cells = [(x - 1, y - 1), (x - 1, y + 0), (x - 1, y + 1),
-                       (x + 0, y - 1),                 (x + 0, y + 1),
-                       (x + 1, y - 1), (x + 1, y + 0), (x + 1, y + 1)]
+    x, y = position
+    neighbour_cells = [
+        (x - 1, y - 1),
+        (x - 1, y + 0),
+        (x - 1, y + 1),
+        (x + 0, y - 1),
+        (x + 0, y + 1),
+        (x + 1, y - 1),
+        (x + 1, y + 0),
+        (x + 1, y + 1),
+    ]
     count = 0
-    for x,y in neighbour_cells:
+    for x, y in neighbour_cells:
         if x >= 0 and y >= 0:
             try:
                 count += grid[x][y]
             except:
                 pass
     return count
+
 
 def draw(screen, world):
     """Draw the current world."""
@@ -107,17 +121,19 @@ def draw(screen, world):
             # print("x:%s y:%s color:%s" % (x, y, cell_color))
             draw_block(screen, x, y, cell_color)
 
+
 def draw_block(screen, x, y, color):
     block_size = 9
     x *= block_size
     y *= block_size
     center_point = (x + (block_size // 2)), (y + (block_size // 2))
-    pygame.draw.circle(screen, color, center_point, block_size // 2,0)
+    pygame.draw.circle(screen, color, center_point, block_size // 2, 0)
+
 
 def main(debug=DEBUG):
     pygame.init()
     if debug:
-        print("SDL version %s" % '.'.join(str(x) for x in pygame.get_sdl_version()))
+        print("SDL version %s" % ".".join(str(x) for x in pygame.get_sdl_version()))
     clock = pygame.time.Clock()
     screen = createFullScreen()
 
@@ -127,8 +143,8 @@ def main(debug=DEBUG):
     exitRequest = False
     while not exitRequest:
         for event in pygame.event.get():
-            if(event.type == pygame.MOUSEBUTTONDOWN):
-                if(event.button==1): #left click
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # left click
                     world = make_random_grid(grid_width, grid_height)
             if event.type == pygame.QUIT:
                 exitRequest = True
@@ -141,6 +157,7 @@ def main(debug=DEBUG):
         pygame.display.flip()
         clock.tick(15)
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
