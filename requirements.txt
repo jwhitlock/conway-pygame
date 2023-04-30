@@ -1,2 +1,2 @@
-pygame==2.0.0.dev6
-black==19.10b0
+pygame==2.3.0
+black

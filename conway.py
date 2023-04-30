@@ -135,7 +135,7 @@ def main(debug=DEBUG):
     if debug:
         print("SDL version %s" % ".".join(str(x) for x in pygame.get_sdl_version()))
     clock = pygame.time.Clock()
-    screen = createFullScreen()
+    screen = createWindowScreen()
 
     grid_width, grid_height = pick_grid_size(screen)
     world = make_random_grid(grid_width, grid_height)
@@ -155,7 +155,7 @@ def main(debug=DEBUG):
         world = evolve(world)
 
         pygame.display.flip()
-        clock.tick(15)
+        clock.tick(2)
     pygame.quit()
 
 
